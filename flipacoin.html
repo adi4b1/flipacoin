@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            mix-blend-mode:hue;
+            transition: transform 3s;
+            
+            
+        }
+        .flipBody{
+            width:99%;
+          
+            max-width:600px;
+            height:340px;
+            margin:60px;
+            display:flex;
+            flex-direction: column;
+            
+            align-items: center;
+            justify-content: center;
+           
+        }
+        #flipBut{
+            padding:10px 30px;
+            background-color: rgb(40, 3, 250);
+            color:white;
+            outline:none;
+            border:none;
+            cursor: pointer;
+            
+           
+        }
+        #coin{
+            height:230px;width:230px;
+        }
+        .mainBody{
+            box-shadow:1px 1px 100px rgb(212, 208, 208);
+            margin:60px;
+            padding:2px;
+         
+
+          
+        }
+        .heading{
+            text-decoration: underline;
+        }
+        /*.rotate90 {
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }*/
+    </style>
+</head>
+<body>
+    <div class="mainBody" align="center">
+        <h2 class="heading">Flip a Coin</h2>
+        <div class="flipBody" align="center">
+            <img src="../pro6/images/head.jpg" id="coin" alt=""></br></br>
+            <h2 id="resText" align="center"></h2>
+            <button type="button" id="flipBut">Flip a Coin</button>
+        </div>
+    </div>
+    <div id="element" style="width: 200px; height: 200px; background: black; border-radius: 50%; text-align: center; line-height: 200px;">
+        Hover Me
+      </div>
+    <script>
+        const element = document.querySelector('#element');
+
+  // Function to toggle the color based on cursor movement
+  const toggleColor = (isEntering) => {
+    element.style.background = isEntering ? 'orange' : 'black';
+  };
+
+  // Change color to orange when the mouse enters the element
+  element.addEventListener('mouseover', () => {
+    toggleColor(true);
+  });
+
+  // Change color to black when the mouse leaves the element
+  element.addEventListener('mouseout', () => {
+    toggleColor(false);
+  });
+        const options = {
+            method: 'GET',
+            headers: {
+              accept: 'application/json',
+              Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5N2NkMWY2ZDIwMjRkZjQ1NzM2MDJlYTQ3Nzg2OTg0NCIsIm5iZiI6MTcyNTE4NTc1Mi44Nzg2ODMsInN1YiI6IjYzY2EzYzAwYmIwNzBkMDA4NGU0NDQ0OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.bjTrhdXJ0RTcHaTIFEbB_S9oBstN3Xf7Ou-4ZmQNPpM'
+            }
+          };
+          
+          fetch('https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1', options)
+            .then(response => response.json())
+            .then(response => console.log(response))
+            .catch(err => console.error(err));
+      
+        
+        let coin=document.getElementById('coin')
+        let but=document.getElementById('flipBut')
+        let res;
+        
+        let resText=document.querySelector('#resText')
+        but.addEventListener('click',function(){
+            function flipperRandom(){
+                let random=Math.random()*1
+                //console.log(random)
+                if(random <= 0.5){
+                    res=0
+                    coin.src="images/tail.jpg";
+                    coin.id="coin"
+                    resText.innerHTML=`Tails`
+
+                   
+                }else{
+                    //console.log(random)
+                    res=1
+                    coin.src="images/head.jpg"
+                    coin.id="coin"
+                    resText.innerHTML=`Heads`
+
+                }
+                //but.style.cursor="not-allowed"
+                
+            }
+           
+            setTimeout(()=>{
+                
+                flipperRandom();
+               
+            },3000)
+            
+            if(setInterval(()=>{},2000)){              
+                coin.src="images/wait.png";
+                //coin.class="rotate"
+                resText.innerHTML=`Loading....` 
+            }
+        })
+        
+    </script>
+</body>
+</html>
